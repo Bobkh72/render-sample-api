@@ -12,6 +12,7 @@ wallets_collection = db["wallets"]
 @app.get("/")
 def read_wallets():
     wallets = list(wallets_collection.find({}, {"_id": 0}).limit(10))
+    print(f"Found {len(wallets)} wallets")
     return {
         "datetime": datetime.now().isoformat(),
         "wallets": wallets
