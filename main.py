@@ -35,3 +35,19 @@ def count_wallets():
         return {"count": count}
     except Exception as e:
         return {"error": str(e)}
+@app.get("/users")
+def users_wallets():
+    try:
+        wallets_collection2 = db["Users"]
+        # Fetch up to 10 wallets, excluding MongoDB _id field
+        wallets_cursor = wallets_collection2.find({}, {"_id": 0}).limit(10)
+        wallets = list(wallets_cursor)
+        
+        print(f"Found {len(wallets)} wallets")  # For debugging in logs
+        
+        return {
+            "datetime": datetime.now().isoformat(),
+            "wallets": wallets 
+        }
+    except Exception as e:
+        return {"error": str(e)}
