@@ -1,22 +1,19 @@
 from fastapi import FastAPI
-from datetime import datetime
 from pymongo import MongoClient
-from dotenv import load_dotenv
+from bson.json_util import dumps
 import os
-
-load_dotenv()
-
-# MongoDB Connection
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client["mydb"]            # Change to your database name
-collection = db["products"]    # Change to your collection name
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    products = list(collection.find({}, {"_id": 0}))
-    return {
-        "datetime": datetime.now().isoformat(),
-        "products": products
-    }
+# MongoDB connection string
+MONGO_URI = "mongodb+srv://bobkhoury72:DRhqkTqJFlRsBkRf@cluster0.uz5b1qf.mongodb.net/"
+client = MongoClient(MONGO_URI)
+
+# Select the database and collection
+db = client["your_db_name"]  # <-- Replace with your database name
+collection = db["your_collection_name"]  # <-- Replace with your collection name
+
+@app.get("/items")
+def read_items():
+    items = list(collection.find())
+    return dumps(items)
