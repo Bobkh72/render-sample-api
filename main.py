@@ -43,7 +43,7 @@ def users_wallets():
         wallets_cursor = wallets_collection2.find({}, {"_id": 0}).limit(10)
         wallets = list(wallets_cursor)
         
-        print(f"Found {len(wallets)} wallets")  # For debugging in logs
+        print(f"Found {len(wallets)} Users")  # For debugging in logs
         
         return {
             "datetime": datetime.now().isoformat(),
