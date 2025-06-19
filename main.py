@@ -1,29 +1,18 @@
+from fastapi import FastAPI
+from pymongo import MongoClient
+from datetime import datetime
+
+app = FastAPI()  # 👈 Make sure this line comes BEFORE any @app.get()
+
+MONGO_URI = "mongodb+srv://bobkhoury72:DRhqkTqJFlRsBkRf@cluster0.uz5b1qf.mongodb.net/"
+client = MongoClient(MONGO_URI)
+db = client["MainDataBase"]
+wallets_collection = db["wallets"]
+
 @app.get("/")
-def debug_mongo():
-    try:
-        # Step 1: Check connection
-        db_names = client.list_database_names()
-
-        # Step 2: Confirm if MainDataBase exists
-        if "MainDataBase" not in db_names:
-            return {"error": "Database 'MainDataBase' not found", "databases": db_names}
-
-        # Step 3: List collections in the database
-        collections = db.list_collection_names()
-
-        # Step 4: Check if 'wallets' collection exists
-        if "wallets" not in collections:
-            return {"error": "'wallets' collection not found", "collections": collections}
-
-        # Step 5: Get a sample document
-        sample = wallets_collection.find_one()
-
-        return {
-            "status": "Connection OK",
-            "databases": db_names,
-            "collections": collections,
-            "sample_wallet": sample
-        }
-
-    except Exception as e:
-        return {"error": str(e)}
+def read_wallets():
+    wallets = list(wallets_collection.find({}, {"_id": 0}).limit(10))
+    return {
+        "datetime": datetime.now().isoformat(),
+        "wallets": wallets
+    }
