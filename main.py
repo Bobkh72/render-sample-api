@@ -4,20 +4,18 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 
-# Load .env file
 load_dotenv()
 
-# Connect to MongoDB Atlas
+# MongoDB Connection
 client = MongoClient(os.getenv("MONGO_URI"))
-db = client["your_db_name"]          # Replace with your DB name
-collection = db["products"]          # Replace with your collection name
+db = client["mydb"]            # Change to your database name
+collection = db["products"]    # Change to your collection name
 
 app = FastAPI()
 
 @app.get("/")
 def read_root():
-    # Fetch all products from MongoDB
-    products = list(collection.find({}, {"_id": 0}))  # Exclude _id from results
+    products = list(collection.find({}, {"_id": 0}))
     return {
         "datetime": datetime.now().isoformat(),
         "products": products
