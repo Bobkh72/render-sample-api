@@ -23,7 +23,7 @@ def read_wallets():
         
         return {
             "datetime": datetime.now().isoformat(),
-            "wallets": wallets
+            "wallets": EEEE
         }
     except Exception as e:
         return {"error": str(e)}
