@@ -9,8 +9,8 @@ MONGO_URI = "mongodb+srv://bobkhoury72:DRhqkTqJFlRsBkRf@cluster0.uz5b1qf.mongodb
 client = MongoClient(MONGO_URI)
 
 # Select your database and collection
-db = client["MainDataBase"]
-wallets_collection = db["WalletSequences"]
+db = client["sample_analytics"]
+wallets_collection = db["accounts"]
 
 @app.get("/")
 def read_wallets():
